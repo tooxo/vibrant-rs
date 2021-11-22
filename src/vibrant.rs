@@ -12,19 +12,19 @@ use palette::Palette;
 /// 6 vibrant colors: primary, dark, light, dark muted and light muted.
 #[derive(Debug, Hash, PartialEq, Eq, Default)]
 pub struct Vibrancy {
-    primary: Option<Rgb<u8>>,
-    dark: Option<Rgb<u8>>,
-    light: Option<Rgb<u8>>,
-    muted: Option<Rgb<u8>>,
-    dark_muted: Option<Rgb<u8>>,
-    light_muted: Option<Rgb<u8>>,
+    pub primary: Option<Rgb<u8>>,
+    pub dark: Option<Rgb<u8>>,
+    pub light: Option<Rgb<u8>>,
+    pub muted: Option<Rgb<u8>>,
+    pub dark_muted: Option<Rgb<u8>>,
+    pub light_muted: Option<Rgb<u8>>,
 }
 
 impl Vibrancy {
     /// Create new vibrancy map from an image
     pub fn new<P, G>(image: &G) -> Vibrancy
-        where P: Sized + Pixel<Subpixel = u8>,
-              G: Sized + GenericImage<Pixel = P>
+        where P: Sized + Pixel<Subpixel=u8>,
+              G: Sized + GenericImage<Pixel=P>
     {
         generate_varation_colors(&Palette::new(image, 256, 10))
     }
@@ -32,7 +32,7 @@ impl Vibrancy {
     fn color_already_set(&self, color: &Rgb<u8>) -> bool {
         let color = Some(*color);
         self.primary == color || self.dark == color || self.light == color ||
-        self.muted == color || self.dark_muted == color || self.light_muted == color
+            self.muted == color || self.dark_muted == color || self.light_muted == color
     }
 
     fn find_color_variation(&self,
@@ -47,10 +47,10 @@ impl Vibrancy {
         let complete_population = pixel_counts.values().fold(0, |acc, c| acc + c);
 
         for (index, swatch) in palette.iter().enumerate() {
-            let HSL {h: _, s, l} = HSL::from_rgb(swatch.channels());
+            let HSL { h: _, s, l } = HSL::from_rgb(swatch.channels());
 
             if s >= saturation.min && s <= saturation.max && l >= luma.min && l <= luma.max &&
-               !self.color_already_set(swatch) {
+                !self.color_already_set(swatch) {
                 let population = *pixel_counts.get(&index).unwrap_or(&0) as f64;
                 if population == 0_f64 {
                     continue;
@@ -85,7 +85,7 @@ impl Vibrancy {
 
 impl fmt::Display for Vibrancy {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        try!(write!(f, "Vibrant Colors {{\n"));
+        write!(f, "Vibrant Colors {{\n")?;
 
         macro_rules! display_color {
             ($formatter:expr, $name:expr, $color:expr) => {
@@ -179,10 +179,10 @@ fn generate_varation_colors(p: &Palette) -> Vibrancy {
                                                              max: 1_f64,
                                                          },
                                                          &MTM {
-            min: 0_f64,
-            target: settings::TARGET_MUTED_SATURATION,
-            max: settings::MAX_MUTED_SATURATION,
-        });
+                                                             min: 0_f64,
+                                                             target: settings::TARGET_MUTED_SATURATION,
+                                                             max: settings::MAX_MUTED_SATURATION,
+                                                         });
 
     vibrancy.dark_muted = vibrancy.find_color_variation(&p.palette,
                                                         &p.pixel_counts,
@@ -192,10 +192,10 @@ fn generate_varation_colors(p: &Palette) -> Vibrancy {
                                                             max: settings::MAX_DARK_LUMA,
                                                         },
                                                         &MTM {
-            min: 0_f64,
-            target: settings::TARGET_MUTED_SATURATION,
-            max: settings::MAX_MUTED_SATURATION,
-        });
+                                                            min: 0_f64,
+                                                            target: settings::TARGET_MUTED_SATURATION,
+                                                            max: settings::MAX_MUTED_SATURATION,
+                                                        });
 
     vibrancy
 }
@@ -222,9 +222,9 @@ fn create_comparison_value(sat: f64,
                            -> f64 {
     weighted_mean(&[(invert_diff(sat, target_sat),
                      settings::WEIGHT_SATURATION),
-                    (invert_diff(luma, target_uma), settings::WEIGHT_LUMA),
-                    (population / max_population,
-                     settings::WEIGHT_POPULATION)])
+        (invert_diff(luma, target_uma), settings::WEIGHT_LUMA),
+        (population / max_population,
+         settings::WEIGHT_POPULATION)])
 }
 
 /// Minimum, Maximum, Target

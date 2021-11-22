@@ -11,11 +11,9 @@ description = "Extract vibrant colors from an image file. Can be used as a libra
 
 [features]
 default = []
-dev = ["clippy"]
 
 [dependencies]
-image = "0.3.12"
-color_quant = "1.0"
-itertools = "0.3"
-clippy = { version = "0.0.15", optional = true }
-hsl = "0.1"
+image = "0.23.14"
+color_quant = "1.1.0"
+itertools = "0.10.1"
+hsl = "0.1.1"

@@ -9,8 +9,6 @@
 #![cfg_attr(feature = "dev", feature(plugin))]
 #![cfg_attr(feature = "dev", plugin(clippy))]
 
-#![deny(missing_docs)]
-
 extern crate image;
 extern crate color_quant;
 extern crate itertools;

@@ -13,7 +13,7 @@ description = "Extract vibrant colors from an image file. Can be used as a libra
 default = []
 
 [dependencies]
-image = { version = "0.23.14", default-features = false }
+image = { version = "0.24.2", default-features = false }
 color_quant = "1.1.0"
 itertools = "0.10.1"
 hsl = "0.1.1"

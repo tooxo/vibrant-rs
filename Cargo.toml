@@ -1,6 +1,6 @@
 [package]
 name = "vibrant"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Pascal Hertleif <killercup@gmail.com>", "Till Schulte <till@s.chulte.de>"]
 repository = "https://github.com/tooxo/vibrant-rs.git"
 homepage = "https://github.com/tooxo/vibrant-rs.git"
